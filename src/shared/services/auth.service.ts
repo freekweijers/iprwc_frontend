@@ -4,7 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
+
+  signout() {
+    sessionStorage.removeItem('token');
+  }
 
   parseToken = (token: string) => {
     const base64Url = token.split('.')[1];
@@ -26,7 +29,7 @@ export class AuthService {
     if (!token) return false;
 
     const claims = this.parseToken(token);
-    if (!(claims.role == 'SENSEI' || claims.role == 'SUPERADMIN')) return false;
+    // if (!(claims.role == 'SENSEI' || claims.role == 'SUPERADMIN')) return false;
 
     return true;
   }
@@ -35,7 +38,6 @@ export class AuthService {
     sessionStorage.setItem('token', token);
   }
 
-  // Krijgt je JWT auth token
   public getToken() {
     return sessionStorage.getItem('token');
   }
