@@ -26,17 +26,17 @@ export class RegisterComponent {
   ) {}
 
   submitRegister() {
-    // this.apiService
-    //   .PostLogin({ username: this.username, password: this.password })
-    //   .subscribe({
-    //     next: (data) => {
-    //       this.toastr.success('Login successful', 'Success');
-    //       this.router.navigate(['/index']);
-    //     },
-    //     error: (error) => {
-    //       console.error(error);
-    //       this.toastr.error('Invalid username or password', 'Error');
-    //     },
-    //   });
+    this.apiService
+      .PostRegister({ username: this.username, password: this.password })
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Register successful', 'Success');
+          this.router.navigate(['/index']);
+        },
+        error: (error) => {
+          console.error(error);
+          this.toastr.error('User already exists', 'Error');
+        },
+      });
   }
 }

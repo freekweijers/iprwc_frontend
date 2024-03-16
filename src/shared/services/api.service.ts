@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { EventEmitter, Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import {environment} from "../../environments/environment.development";
+import {Product} from "../../app/models/product.model";
+import {Category} from "../../app/models/category.model";
 
 
 const API_URL = environment.API_URL;
@@ -234,11 +236,34 @@ export class ApiService {
   //   );
   // }
 
+  // getProducts() {
+  //   let token = this.authService.getToken();
+  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  //   return this.http.get(`${API_URL}/products`, {headers: headers}).pipe(
+  //     map((data: any) => {
+  //       const productSchema = z.object({
+  //         id: z.number(),
+  //         name: z.string(),
+  //         price: z.number(),
+  //         stock: z.number(),
+  //         description: z.string(),
+  //         imageUri: z.string(),
+  //         category: z.object({
+  //           id: z.number(),
+  //           name: z.string(),
+  //           description: z.string(),
+  //         })
+  //       });
+  //
+  //       // Assuming `data` is an array of products; adjust as needed
+  //       return data.map((item: Product) => productSchema.parse(item));
+  //     })
+  //   );
+  // }
+
   getProducts() {
-    let token = this.authService.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${API_URL}/products`, {headers: headers}).pipe(
-      map((data) => {
+    return this.http.get(`${API_URL}/products`).pipe(
+      map((data: any) => {
         const productSchema = z.object({
           id: z.number(),
           name: z.string(),
@@ -251,9 +276,65 @@ export class ApiService {
             name: z.string(),
             description: z.string(),
           })
-        })
-      }))
+        });
+
+        // Assuming `data` is an array of products; adjust as needed
+        return data.map((item: Product) => productSchema.parse(item));
+      })
+    );
   }
 
+  getCategories() {
+    return this.http.get(`${API_URL}/categories`).pipe(
+      map((data: any) => {
+        const categorySchema = z.object({
+          id: z.number(),
+          name: z.string(),
+          description: z.string()
+        });
+
+        return data.map((item: Category) => categorySchema.parse(item));
+      })
+    );
+  }
+
+  createProduct(product: Product) {
+    let token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${API_URL}/products`, product, {
+      headers: headers,
+      observe: 'response',
+    });
+  }
+
+  // createUser(payload: {
+  //   username: string;
+  //   password: string;
+  //   role: string;
+  // }) {
+  //   let token = this.authService.getToken();
+  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  //   return this.http.post(`${API_URL}/user`, payload, {
+  //     headers: headers,
+  //     observe: 'response',
+  //   });
+  // }
+
+  PostRegister(payload: { username: string; password: string }) {
+    return this.http.post(`${API_URL}/auth/register`, payload).pipe(
+      map((data) => {
+        return z
+          .object({
+            payload: z.object({
+              token: z.string(),
+            }),
+          })
+          .parse(data);
+      }),
+      tap((data) => {
+        this.authService.setToken(data.payload.token);
+      })
+    );
+  }
 
 }
