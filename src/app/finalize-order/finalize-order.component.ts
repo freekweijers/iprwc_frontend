@@ -7,7 +7,7 @@ import {ApiService} from "../../shared/services/api.service";
 import {ToastrService} from "ngx-toastr";
 import {CustomerService} from "../customer.service";
 import {Router, RouterLink} from "@angular/router";
-import {Productorder} from "../models/productorder.model";
+import {ProductOrder} from "../models/productorder.model";
 import {CommonModule} from "@angular/common";
 
 @Component({
@@ -25,7 +25,7 @@ export class FinalizeOrderComponent implements OnInit{
   customer!: Customer;
   cartItems!: Product[];
   finalPrice: number = 0;
-  productOrder!: Productorder;
+  productOrder!: ProductOrder;
 
   constructor(private cartService: CartService,
               private apiService: ApiService,
@@ -42,6 +42,7 @@ export class FinalizeOrderComponent implements OnInit{
       customer: this.customer,
       totalPrice: this.finalPrice
     }
+    // this.productOrder.status = "New";
   }
 
   placeOrder() {
@@ -50,7 +51,7 @@ export class FinalizeOrderComponent implements OnInit{
         if (response.status === 201) {
           this.toastr.success('Order created', 'Success');
           this.cartService.clearCart();
-          this.router.navigate(['/finalize-order']);
+          this.router.navigate(['/index']);
           // this.customerService;
         } else {
           this.toastr.error('An error occured when creating order', 'Error');

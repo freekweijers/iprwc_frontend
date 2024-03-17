@@ -34,31 +34,16 @@ export class CustomerRegisterComponent implements OnInit{
 
   ngOnInit() {
     this.username = this.authService.getUsername();
-    if (this.username != null) {
-      this.checkExistingCustomer();
+    if (this.username != null && this.customerService.getCustomer().name != null) {
+      // console.log(this.customerService.getCustomer())
+      this.existingCustomer();
     }
   }
 
 
-  checkExistingCustomer() {
-    this.apiService.getLoggedInCustomer().subscribe({
-      next: (response) => {
-        if (response.status === 200) {
-          let body = JSON.stringify(response.body);
-          this.customer = JSON.parse(body);
-          if (this.username != null) {
-            this.customer.optionalRegisteredUser = { username: this.username };
-          }
-          this.customerService.setCustomer(this.customer);
-          this.router.navigate(['/finalize-order']);
-        }
-        else {
-          this.toastr.error('An error occured when checking for existing customer', 'Error');
-          console.error('An error occured when checking for existing customer');
-        }
-      }
-    })
-    // this.router.navigate(['/finalize-order']);
+  existingCustomer() {
+    this.customerService.getCustomer().optionalRegisteredUser = { username: "user" };
+    this.router.navigate(['/finalize-order']);
   }
 
   onSubmit(customerForm: NgForm) {

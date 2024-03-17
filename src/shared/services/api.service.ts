@@ -7,7 +7,7 @@ import {environment} from "../../environments/environment.development";
 import {Product} from "../../app/models/product.model";
 import {Category} from "../../app/models/category.model";
 import {Customer} from "../../app/models/customer.model";
-import {Productorder} from "../../app/models/productorder.model";
+import {ProductOrder} from "../../app/models/productorder.model";
 
 
 const API_URL = environment.API_URL;
@@ -334,7 +334,7 @@ export class ApiService {
     })
   }
 
-  createOrder(order: Productorder){
+  createOrder(order: ProductOrder){
     if(order.customer.optionalRegisteredUser == null) {
       return this.http.post(`${API_URL}/orders/no-account`, order, {
         observe: 'response',
@@ -352,12 +352,20 @@ export class ApiService {
   getOrders() {
     let token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${API_URL}/orders`, {
+    return this.http.get(`${API_URL}/orders/logged-in`, {
       headers: headers,
       observe: 'response'
     })
   }
 
+  getAllOrders() {
+    let token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${API_URL}/orders`, {
+      headers: headers,
+      observe: 'response'
+    })
+  }
 
   // createUser(payload: {
   //   username: string;
@@ -397,5 +405,15 @@ export class ApiService {
       headers: headers,
       observe: 'response',
     });
+  }
+
+  updateOrderStatus(id: number, status: string) {
+    let token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.patch(`${API_URL}/orders/`+ id + '/status', status, {
+      headers: headers,
+      observe: 'response',
+    });
+
   }
 }

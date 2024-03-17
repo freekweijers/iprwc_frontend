@@ -31,9 +31,8 @@ export class AuthService {
     if (!token) return false;
 
     const claims = this.parseToken(token);
-    // if (!(claims.role == 'SENSEI' || claims.role == 'SUPERADMIN')) return false;
+    return claims.role == 'ADMIN';
 
-    return true;
   }
 
   public setToken(token: string): void {

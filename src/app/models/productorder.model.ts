@@ -1,6 +1,6 @@
 import {Customer} from "./customer.model";
 
-export interface Productorder {
+export interface ProductOrder {
   id?: number;
   customer: Customer;
   date?: Date;

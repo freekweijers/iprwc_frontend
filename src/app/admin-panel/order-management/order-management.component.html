@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h2>Order Management</h2>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Customer</th>
+      <th>Date</th>
+      <th>Total Price</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of productOrders">
+      <td>{{ order.id }}</td>
+      <td>{{ order.customer.name }} ({{ order.customer.email }})</td>
+      <td>{{ order.date | date:'medium' }}</td>
+      <td>{{ order.totalPrice }}</td>
+      <td>{{ order.status }}</td>
+      <td>
+        <select class="form-control" #statusSelect (change)="updateStatus(order, statusSelect.value)">
+          <option value="" disabled selected>Select Status</option>
+          <option value="Processing">Processing</option>
+          <option value="Shipped">Shipped</option>
+          <option value="Delivered">Delivered</option>
+        </select>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

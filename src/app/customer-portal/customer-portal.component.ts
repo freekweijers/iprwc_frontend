@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuComponent} from "../menu/menu.component";
-import {Productorder} from "../models/productorder.model";
+import {ProductOrder} from "../models/productorder.model";
 import {ApiService} from "../../shared/services/api.service";
 import {ToastrService} from "ngx-toastr";
 import {CommonModule} from "@angular/common";
@@ -19,7 +19,7 @@ import {CustomerService} from "../customer.service";
 })
 export class CustomerPortalComponent implements OnInit{
 
-  orders: Productorder[] = [];
+  orders: ProductOrder[] = [];
   customer: Customer = {} as Customer;
 
   constructor(private apiService: ApiService,

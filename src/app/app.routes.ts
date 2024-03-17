@@ -29,7 +29,8 @@ export const routes: Routes = [
   },
   {
     path: 'index',
-    component: HomepageComponent
+    component: HomepageComponent,
+    title: 'Delano\'s websjop'
     // canActivate: [loginGuard],
   },
   {

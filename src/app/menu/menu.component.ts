@@ -15,12 +15,14 @@ import {CommonModule} from "@angular/common";
 })
 export class MenuComponent implements OnInit{
   username: string | null = '';
+  isAdmin: boolean = false;
 
   constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
     this.username = this.authService.getUsername();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   logout() {

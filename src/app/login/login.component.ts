@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {ApiService} from "../../shared/services/api.service";
+import {CustomerService} from "../customer.service";
 
 
 @Component({
@@ -22,7 +23,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private customerService: CustomerService
   ) {}
 
   submitLogin() {
@@ -32,6 +34,7 @@ export class LoginComponent {
         next: (data) => {
           this.toastr.success('Login successful', 'Success');
           this.router.navigate(['/index']);
+          this.customerService.getCustomerFromApi();
         },
         error: (error) => {
           console.error(error);
