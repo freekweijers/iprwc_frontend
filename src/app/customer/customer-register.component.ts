@@ -58,6 +58,7 @@ export class CustomerRegisterComponent implements OnInit{
         }
       }
     })
+    // this.router.navigate(['/finalize-order']);
   }
 
   onSubmit(customerForm: NgForm) {

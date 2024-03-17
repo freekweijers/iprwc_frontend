@@ -9,6 +9,7 @@ import {AdminPanelComponent} from "./admin-panel/admin-panel.component";
 import {CheckoutComponent} from "./checkout/checkout.component";
 import {CustomerRegisterComponent} from "./customer/customer-register.component";
 import {FinalizeOrderComponent} from "./finalize-order/finalize-order.component";
+import {CustomerPortalComponent} from "./customer-portal/customer-portal.component";
 
 export const routes: Routes = [
   {
@@ -60,5 +61,9 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/index',
     pathMatch: 'full'
+  },
+  {
+    path: 'my-account',
+    component: CustomerPortalComponent
   }
 ];

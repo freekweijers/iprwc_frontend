@@ -3,12 +3,16 @@ import {MenuComponent} from "../menu/menu.component";
 import {Productorder} from "../models/productorder.model";
 import {ApiService} from "../../shared/services/api.service";
 import {ToastrService} from "ngx-toastr";
+import {CommonModule} from "@angular/common";
+import {Customer} from "../models/customer.model";
+import {CustomerService} from "../customer.service";
 
 @Component({
   selector: 'app-customer-portal',
   standalone: true,
   imports: [
-    MenuComponent
+    MenuComponent,
+    CommonModule
   ],
   templateUrl: './customer-portal.component.html',
   styleUrl: './customer-portal.component.css'
@@ -16,13 +20,17 @@ import {ToastrService} from "ngx-toastr";
 export class CustomerPortalComponent implements OnInit{
 
   orders: Productorder[] = [];
+  customer: Customer = {} as Customer;
 
   constructor(private apiService: ApiService,
+              private customerService: CustomerService,
               private toastr: ToastrService) {
   }
 
   ngOnInit() {
     this.parseOrders();
+    this.customerService.getCustomerFromApi();
+    this.customer = this.customerService.getCustomer();
   }
 
   parseOrders() {
@@ -40,5 +48,6 @@ export class CustomerPortalComponent implements OnInit{
     })
 
   }
+
 
 }
