@@ -1,5 +1,6 @@
 <div class="container">
   <h2>Product Management</h2>
+  <h3>Adding products</h3>
   <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
     <div class="form-group">
       <label for="name">Name</label>
@@ -29,4 +30,31 @@
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Submit</button>
   </form>
+  <h3>Products</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Description</th>
+        <th>Image URI</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.stock}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.imageUri}}</td>
+        <td>{{product.category.name}}</td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteProduct(product)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

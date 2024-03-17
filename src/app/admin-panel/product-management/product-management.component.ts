@@ -6,7 +6,6 @@ import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {Product} from "../../models/product.model";
 import {ToastrService} from "ngx-toastr";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-product-management',
@@ -19,6 +18,7 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 })
 export class ProductManagementComponent implements OnInit {
   categories: Category[] = [];
+  products: Product[] = [];
   product!: Product;
 
   constructor(private apiService: ApiService,
@@ -29,9 +29,9 @@ export class ProductManagementComponent implements OnInit {
     this.product.category = <Category>this.categories.find(category => category.id == productForm.value.category);
     this.apiService.createProduct(this.product).subscribe({
       next: (response) => {
-        // console.log(response.status);
         if (response.status === 201) {
           this.toastr.success('Product created', 'Success');
+          this.fetchProducts();
         }
         else {
           this.toastr.error('An error occured when creating product', 'Error');
@@ -40,7 +40,32 @@ export class ProductManagementComponent implements OnInit {
     })
   }
 
+  deleteProduct(product: Product) {
+    this.apiService.deleteProduct(product).subscribe({
+      next: (response) => {
+        if (response.status === 204) {
+          this.toastr.success('Product deleted', 'Success');
+          this.fetchProducts();
+        }
+        else {
+          this.toastr.error('An error occured when deleting product', 'Error');
+        }
+      }
+    })
+  }
+
   ngOnInit() {
+    this.fetchProducts();
+    this.fetchCategories();
+  }
+
+  fetchProducts() {
+    this.apiService.getProducts().subscribe(data => {
+      this.products = data;
+    });
+  }
+
+  fetchCategories() {
     this.apiService.getCategories().subscribe(data => {
       this.categories = data;
     });

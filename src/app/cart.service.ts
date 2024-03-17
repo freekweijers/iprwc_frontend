@@ -40,4 +40,8 @@ export class CartService {
       this.items = JSON.parse(storedItems);
     }
   }
+
+  getTotal() {
+    return this.items.reduce((acc, item) => acc + item.price, 0);
+  }
 }

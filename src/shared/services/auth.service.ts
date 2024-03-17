@@ -7,6 +7,7 @@ export class AuthService {
 
   signout() {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
   }
 
   parseToken = (token: string) => {
@@ -24,6 +25,7 @@ export class AuthService {
     return true;
   }
 
+
   public isAdmin(): boolean {
     const token = sessionStorage.getItem('token');
     if (!token) return false;
@@ -38,7 +40,15 @@ export class AuthService {
     sessionStorage.setItem('token', token);
   }
 
+  public setUsername(username: string): void {
+    sessionStorage.setItem('username', username);
+  }
+
   public getToken() {
     return sessionStorage.getItem('token');
+  }
+
+  public getUsername() {
+    return sessionStorage.getItem('username');
   }
 }

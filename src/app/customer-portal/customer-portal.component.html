@@ -1,0 +1,27 @@
+<app-menu></app-menu>
+<div class="container mt-4">
+  <h2>My Orders</h2>
+  <div *ngIf="orders.length; else noOrders">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.id }}</td>
+        <td>{{ order.date }}</td>
+        <td>€{{ order.total }}</td>
+        <td>{{ order.status }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noOrders>
+    <p>You have no orders.</p>
+  </ng-template>
+</div>

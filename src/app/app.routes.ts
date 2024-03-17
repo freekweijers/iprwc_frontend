@@ -6,6 +6,9 @@ import {HomepageComponent} from "./homepage/homepage.component";
 import {SingleProductComponent} from "./single-product/single-product.component";
 import {CartComponent} from "./cart/cart.component";
 import {AdminPanelComponent} from "./admin-panel/admin-panel.component";
+import {CheckoutComponent} from "./checkout/checkout.component";
+import {CustomerRegisterComponent} from "./customer/customer-register.component";
+import {FinalizeOrderComponent} from "./finalize-order/finalize-order.component";
 
 export const routes: Routes = [
   {
@@ -40,5 +43,22 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminPanelComponent
+  },
+  {
+    path:'checkout',
+    component: CheckoutComponent
+  },
+  {
+    path: 'customer-register',
+    component: CustomerRegisterComponent
+  },
+  {
+    path: 'finalize-order',
+    component: FinalizeOrderComponent
+  },
+  {
+    path: '',
+    redirectTo: '/index',
+    pathMatch: 'full'
   }
 ];

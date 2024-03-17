@@ -6,6 +6,8 @@ import { map, Observable, tap } from 'rxjs';
 import {environment} from "../../environments/environment.development";
 import {Product} from "../../app/models/product.model";
 import {Category} from "../../app/models/category.model";
+import {Customer} from "../../app/models/customer.model";
+import {Productorder} from "../../app/models/productorder.model";
 
 
 const API_URL = environment.API_URL;
@@ -31,6 +33,7 @@ export class ApiService {
       }),
       tap((data) => {
         this.authService.setToken(data.payload.token);
+        this.authService.setUsername(payload.username);
       })
     );
   }
@@ -307,6 +310,55 @@ export class ApiService {
     });
   }
 
+  createCustomer(customer: Customer) {
+    if(customer.optionalRegisteredUser == null) {
+      return this.http.post(`${API_URL}/customers/no-account`, customer, {
+        observe: 'response',
+      })
+    } else {
+      let token = this.authService.getToken();
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      return this.http.post(`${API_URL}/customers`, customer, {
+        headers: headers,
+        observe: 'response',
+      });
+    }
+  }
+
+  getLoggedInCustomer() {
+    let token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${API_URL}/customers/logged-in`, {
+      headers: headers,
+      observe: 'response'
+    })
+  }
+
+  createOrder(order: Productorder){
+    if(order.customer.optionalRegisteredUser == null) {
+      return this.http.post(`${API_URL}/orders/no-account`, order, {
+        observe: 'response',
+      })
+    } else {
+      let token = this.authService.getToken();
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      return this.http.post(`${API_URL}/orders`, order, {
+        headers: headers,
+        observe: 'response',
+      });
+    }
+  }
+
+  getOrders() {
+    let token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${API_URL}/orders`, {
+      headers: headers,
+      observe: 'response'
+    })
+  }
+
+
   // createUser(payload: {
   //   username: string;
   //   password: string;
@@ -333,8 +385,17 @@ export class ApiService {
       }),
       tap((data) => {
         this.authService.setToken(data.payload.token);
+        this.authService.setUsername(payload.username);
       })
     );
   }
 
+  deleteProduct(product: Product) {
+    let token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${API_URL}/products/`+ product.id, {
+      headers: headers,
+      observe: 'response',
+    });
+  }
 }
